@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import logging
+import socket
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from typing import Callable
@@ -27,6 +28,16 @@ from .http_server import ForwardAuthServer
 _LOGGER = logging.getLogger(__name__)
 
 PLATFORMS = ["switch", "number", "sensor"]
+
+
+def get_local_ip() -> str:
+    """Return the LAN IP this host uses to reach the outside world."""
+    try:
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
+            s.connect(("8.8.8.8", 80))
+            return s.getsockname()[0]
+    except OSError:
+        return "127.0.0.1"
 
 
 @dataclass
@@ -189,9 +200,13 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     server = ForwardAuthServer(manager, port)
     await server.start()
 
+    local_ip = await hass.async_add_executor_job(get_local_ip)
+
     hass.data.setdefault(DOMAIN, {})[entry.entry_id] = {
         "manager": manager,
         "server": server,
+        "local_ip": local_ip,
+        "port": port,
     }
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)

@@ -15,6 +15,10 @@
           "plex_max_hours": "Plex — maximum hours",
           "plex_step_hours": "Plex — step hours"
         }
+      },
+      "confirm": {
+        "title": "Traefik Gate — Ready",
+        "description": "Setup complete. Add these ForwardAuth addresses to your Traefik middleware configuration:\n\n**Protected:** `{protected_url}`\n\n**Plex:** `{plex_url}`\n\nThese URLs are also available as diagnostic sensors in Home Assistant."
       }
     },
     "error": {
@@ -33,7 +37,9 @@
     },
     "sensor": {
       "protected_remaining": {"name": "Protected Time Remaining"},
-      "plex_remaining": {"name": "Plex Time Remaining"}
+      "plex_remaining": {"name": "Plex Time Remaining"},
+      "protected_url": {"name": "Protected ForwardAuth URL"},
+      "plex_url": {"name": "Plex ForwardAuth URL"}
     }
   }
 }
