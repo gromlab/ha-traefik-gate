@@ -2,6 +2,7 @@ import voluptuous as vol
 from homeassistant import config_entries
 from homeassistant.core import HomeAssistant
 
+from . import get_local_ip
 from .const import (
     DOMAIN,
     CONF_LISTEN_PORT,
@@ -34,6 +35,9 @@ STEP_SCHEMA = vol.Schema({
 class TraefikGateConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     VERSION = 1
 
+    def __init__(self) -> None:
+        self._config: dict = {}
+
     async def async_step_user(self, user_input=None):
         errors = {}
 
@@ -44,12 +48,28 @@ class TraefikGateConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             else:
                 await self.async_set_unique_id(DOMAIN)
                 self._abort_if_unique_id_configured()
-                return self.async_create_entry(title="Traefik Gate", data=user_input)
+                self._config = user_input
+                return await self.async_step_confirm()
 
         return self.async_show_form(
             step_id="user",
             data_schema=STEP_SCHEMA,
             errors=errors,
+        )
+
+    async def async_step_confirm(self, user_input=None):
+        if user_input is not None:
+            return self.async_create_entry(title="Traefik Gate", data=self._config)
+
+        local_ip = await self.hass.async_add_executor_job(get_local_ip)
+        port = self._config[CONF_LISTEN_PORT]
+
+        return self.async_show_form(
+            step_id="confirm",
+            description_placeholders={
+                "protected_url": f"http://{local_ip}:{port}/auth/protected",
+                "plex_url": f"http://{local_ip}:{port}/auth/plex",
+            },
         )
 
 
