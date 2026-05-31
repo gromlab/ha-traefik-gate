@@ -1,0 +1,39 @@
+DOMAIN = "traefik_gate"
+
+CONF_LISTEN_PORT = "listen_port"
+CONF_PROTECTED_MIN_HOURS = "protected_min_hours"
+CONF_PROTECTED_MAX_HOURS = "protected_max_hours"
+CONF_PROTECTED_STEP_HOURS = "protected_step_hours"
+CONF_PROTECTED_DEFAULT_HOURS = "protected_default_hours"
+CONF_PLEX_MIN_HOURS = "plex_min_hours"
+CONF_PLEX_MAX_HOURS = "plex_max_hours"
+CONF_PLEX_STEP_HOURS = "plex_step_hours"
+CONF_PLEX_DEFAULT_HOURS = "plex_default_hours"
+
+DEFAULT_LISTEN_PORT = 8082
+DEFAULT_PROTECTED_MIN_HOURS = 1
+DEFAULT_PROTECTED_MAX_HOURS = 24
+DEFAULT_PROTECTED_STEP_HOURS = 1
+DEFAULT_PROTECTED_DEFAULT_HOURS = 1
+DEFAULT_PLEX_MIN_HOURS = 24
+DEFAULT_PLEX_MAX_HOURS = 168
+DEFAULT_PLEX_STEP_HOURS = 24
+DEFAULT_PLEX_DEFAULT_HOURS = 24
+
+PROFILE_PROTECTED = "protected"
+PROFILE_PLEX = "plex"
+PROFILES = [PROFILE_PROTECTED, PROFILE_PLEX]
+
+STORAGE_KEY = "traefik_gate"
+STORAGE_VERSION = 1
+
+# Private CIDRs that bypass the gate (LAN + Tailscale CGNAT)
+PRIVATE_CIDRS = [
+    "10.0.0.0/8",
+    "172.16.0.0/12",
+    "192.168.0.0/16",
+    "100.64.0.0/10",
+    "127.0.0.0/8",
+    "::1/128",
+    "fc00::/7",
+]

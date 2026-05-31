@@ -1,0 +1,39 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Traefik Gate",
+        "description": "Configure the ForwardAuth HTTP listener and access profile defaults.",
+        "data": {
+          "listen_port": "ForwardAuth listen port",
+          "protected_default_hours": "Protected — default session hours",
+          "protected_min_hours": "Protected — minimum hours",
+          "protected_max_hours": "Protected — maximum hours",
+          "protected_step_hours": "Protected — step hours",
+          "plex_default_hours": "Plex — default session hours",
+          "plex_min_hours": "Plex — minimum hours",
+          "plex_max_hours": "Plex — maximum hours",
+          "plex_step_hours": "Plex — step hours"
+        }
+      }
+    },
+    "error": {
+      "port_in_use": "Port is already in use",
+      "invalid_port": "Port must be between 1024 and 65535"
+    }
+  },
+  "entity": {
+    "switch": {
+      "protected_access": {"name": "Protected External Access"},
+      "plex_access": {"name": "Plex External Access"}
+    },
+    "number": {
+      "protected_duration": {"name": "Protected Default Duration"},
+      "plex_duration": {"name": "Plex Default Duration"}
+    },
+    "sensor": {
+      "protected_remaining": {"name": "Protected Time Remaining"},
+      "plex_remaining": {"name": "Plex Time Remaining"}
+    }
+  }
+}
