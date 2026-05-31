@@ -1,4 +1,4 @@
 {
   "name": "Traefik Gate",
-  "category": "integration"
+  "render_readme": true
 }
